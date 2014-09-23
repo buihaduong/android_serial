@@ -38,4 +38,12 @@ public class PacketRequest {
 	public void setLed(LedNumber number, LedColour colour) throws IOException {
 		driver.write(packetBuilder.buildLed(number, colour),8);
 	}
+	
+	public void setSoundSequence(SoundType sound) throws IOException {
+		driver.write(packetBuilder.buildSoundSequence(sound),8);
+	}
+	
+	public void baseControl(int velocity, int radius) throws IOException {
+		driver.write(packetBuilder.buildBaseControlPacket((short) velocity,(short) radius), 20);
+	}
 }

@@ -1091,10 +1091,14 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_settings=0x7f060041;
+        public static final int action_settings=0x7f06004a;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
+        public static final int btnDown=0x7f060046;
+        public static final int btnLeft=0x7f060047;
+        public static final int btnRight=0x7f060048;
+        public static final int btnUp=0x7f060045;
         public static final int checkbox=0x7f06002d;
         public static final int collapseActionView=0x7f06000d;
         public static final int default_activity_button=0x7f060028;
@@ -1114,6 +1118,10 @@ containing a value of this type.
         public static final int led1_green=0x7f06003e;
         public static final int led1_orange=0x7f06003f;
         public static final int led1_red=0x7f06003d;
+        public static final int led2_black=0x7f060044;
+        public static final int led2_green=0x7f060042;
+        public static final int led2_orange=0x7f060043;
+        public static final int led2_red=0x7f060041;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
         public static final int middle=0x7f060012;
@@ -1145,6 +1153,7 @@ containing a value of this type.
         public static final int txtTest=0x7f06003c;
         public static final int up=0x7f060021;
         public static final int useLogo=0x7f060003;
+        public static final int velocity=0x7f060049;
         public static final int withText=0x7f06000c;
     }
     public static final class integer {

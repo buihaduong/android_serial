@@ -26,14 +26,25 @@ public class PacketBuilder {
 		return go; // Send back go
 	}
 	
-	public final byte[] buildSoundSequence(byte seq) {
+	/**
+	 * 0 for ON sound 
+	 * 1 for OFF sound 
+	 * 2 for RECHARGE sound 
+	 * 3 for BUTTON sound 
+	 * 4 for ERROR sound 
+	 * 5 for CLEANINGSTART sound 
+	 * 6 for CLEANINGEND sound
+	 * @param soundType
+	 * @return
+	 */
+	public final byte[] buildSoundSequence(SoundType soundType) {
 		byte[] sound = new byte[7];
 		sound[0] = (byte) 0xAA;
 		sound[1] = 0x55;
 		sound[2] = 0x03;
 		sound[3] = 0x04;
 		sound[4] = 0x01;
-		sound[5] = seq;
+		sound[5] = soundType.getSound();
 		sound[6] = (byte) (sound[2]^sound[3]^sound[4]^sound[5]); // Checksum
 		return sound;
 	}
