@@ -8,6 +8,8 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 
 import android.support.v7.app.ActionBarActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,12 +63,10 @@ public class MainActivity extends ActionBarActivity implements
 				txt.setText(Integer.toString(v));
 			}
 		});
-
-		UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-		UsbSerialDriver driver = UsbSerialProber.acquire(manager);
-		packetRequest = new PacketRequest(driver);
 		
 		InitButton();
+		Intent intent = new Intent(this, KobukiService.class);
+		startService(intent);
 	}
 
 	public void InitButton() {
@@ -100,6 +100,12 @@ public class MainActivity extends ActionBarActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void broadcastIntent(View view){
+		Intent intent = new Intent("robotbase.action.MOVE");
+		intent.putExtra("command", "GO");
+		sendBroadcast(intent);
+	}
+	
 	public void buttonClicked(View view) {
 		Button btn = (Button) view;
 		if (packetRequest == null)
