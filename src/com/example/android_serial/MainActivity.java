@@ -2,11 +2,10 @@ package com.example.android_serial;
 
 import java.io.IOException;
 import java.net.Socket;
-
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
-
 import android.support.v7.app.ActionBarActivity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -63,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements
 				txt.setText(Integer.toString(v));
 			}
 		});
-		
+
 		InitButton();
 		Intent intent = new Intent(this, KobukiService.class);
 		startService(intent);
@@ -100,12 +99,12 @@ public class MainActivity extends ActionBarActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void broadcastIntent(View view){
+	public void broadcastIntent(View view) {
 		Intent intent = new Intent("robotbase.action.MOVE");
 		intent.putExtra("command", "GO");
 		sendBroadcast(intent);
 	}
-	
+
 	public void buttonClicked(View view) {
 		Button btn = (Button) view;
 		if (packetRequest == null)
@@ -136,18 +135,6 @@ public class MainActivity extends ActionBarActivity implements
 			case R.id.led2_black:
 				packetRequest.setLed(LedNumber.Led2, LedColour.Black);
 				break;
-//			case R.id.btnUp:
-//				packetRequest.baseControl(v, 0);
-//				break;
-//			case R.id.btnDown:
-//				packetRequest.baseControl(-v, 0);
-//				break;
-//			case R.id.btnLeft:
-//				packetRequest.baseControl(v, v);
-//				break;
-//			case R.id.btnRight:
-//				packetRequest.baseControl(v, -v);
-//				break;
 			default:
 				break;
 			}
@@ -158,31 +145,33 @@ public class MainActivity extends ActionBarActivity implements
 
 	private Runnable mUpdateTaskSendCommand = new Runnable() {
 		public void run() {
-			if (packetRequest == null)
-			{
-				v++;
-				txt.setText(Integer.toString(v));
-				return;
+			Bundle data = new Bundle();
+			int data_control = 0;
+			switch (currentButton.getId()) {
+			case R.id.btnUp:
+				// packetRequest.baseControl(v, 0);
+				data_control = KobukiCommand.FORWARD.ordinal();
+				break;
+			case R.id.btnDown:
+				// packetRequest.baseControl(-v, 0);
+				data_control = KobukiCommand.BACKWARD.ordinal();
+				break;
+			case R.id.btnLeft:
+				// packetRequest.baseControl(v, v);
+				data_control = KobukiCommand.LEFT.ordinal();
+				break;
+			case R.id.btnRight:
+				// packetRequest.baseControl(v, -v);
+				data_control = KobukiCommand.RIGHT.ordinal();
+				break;
+			default:
+				break;
 			}
-			try {
-				switch (currentButton.getId()) {
-				case R.id.btnUp:
-					packetRequest.baseControl(v, 0);
-					break;
-				case R.id.btnDown:
-					packetRequest.baseControl(-v, 0);
-					break;
-				case R.id.btnLeft:
-					packetRequest.baseControl(v, v);
-					break;
-				case R.id.btnRight:
-					packetRequest.baseControl(v, -v);
-					break;
-				default:
-					break;
-				}
-			} catch (IOException ex) {
-			}
+			data.putInt(KobukiConstanst.COMMAND_KEY, data_control);
+			Intent intent = new Intent(KobukiConstanst.COMMAND_MOVE);
+			intent.putExtra(KobukiConstanst.BUNDLE_KEY, data);
+			sendBroadcast(intent);
+			
 			mHandler.post(this);
 		}
 	};

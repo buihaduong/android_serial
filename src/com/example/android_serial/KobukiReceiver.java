@@ -14,9 +14,9 @@ public class KobukiReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Bundle data = intent.getBundleExtra("data");
-		KobukiCommand command = (KobukiCommand) data.get("command");
-		Log.d("robotbase.action.MOVE", command.getCommand());
+		Bundle data = intent.getBundleExtra(KobukiConstanst.BUNDLE_KEY);
+		KobukiCommand command = (KobukiCommand) KobukiCommand.values()[data.getInt(KobukiConstanst.COMMAND_KEY)];
+		Log.d(KobukiConstanst.BASE, command.getCommand());
 
 		int v = 70;
 		try {

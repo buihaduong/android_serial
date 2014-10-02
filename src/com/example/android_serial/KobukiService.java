@@ -23,21 +23,27 @@ public class KobukiService extends Service {
 
 	@Override
 	public void onStart(Intent intent, int startId) {
-		Log.d("robotbase.action.MOVE", "START SERVICE");
+		Log.d(KobukiConstanst.BASE, "START SERVICE");
 		
 		UsbManager manager = (UsbManager) this.getSystemService(Context.USB_SERVICE);
 		UsbSerialDriver driver = UsbSerialProber.acquire(manager);
 		kobukiReceiver.setPacketRequest(new PacketRequest(driver));
-		Log.d("robotbase.action.MOVE", "GET SERIAL PORT");
+		Log.d(KobukiConstanst.BASE, "GET SERIAL PORT");
 		
-		IntentFilter intentFilter = new IntentFilter("robotbase.action.MOVE");
-		registerReceiver(kobukiReceiver, intentFilter);
-		Log.d("robotbase.action.MOVE", "REGISTER RECEIVER");
+		IntentFilter intentMove = new IntentFilter(KobukiConstanst.COMMAND_MOVE);
+		IntentFilter intentLed = new IntentFilter(KobukiConstanst.COMMAND_LED);
+		IntentFilter intentSound = new IntentFilter(KobukiConstanst.COMMAND_SOUND);
+		
+		registerReceiver(kobukiReceiver, intentMove);
+		registerReceiver(kobukiReceiver, intentLed);
+		registerReceiver(kobukiReceiver, intentSound);
+		
+		Log.d(KobukiConstanst.BASE, "REGISTER RECEIVER");
 	}
 
 	@Override
 	public void onDestroy() {
 		unregisterReceiver(kobukiReceiver);
-		Log.d("robotbase.action.MOVE", "DESTROY SERVICE");
+		Log.d(KobukiConstanst.BASE, "DESTROY SERVICE");
 	}
 }
